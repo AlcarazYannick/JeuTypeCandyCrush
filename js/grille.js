@@ -125,6 +125,8 @@ class Grille {
     let cookie2 = this.tabCookiesCliquees[1];
 
     /*
+    //VERSION ALTERNATIVE POUR LA DISTANCE
+
     let diffLignes = Math.abs(cookie1.ligne - cookie2.ligne);
     let diffColonnes = Math.abs(cookie1.colonne - cookie2.colonne);
 
@@ -137,7 +139,6 @@ class Grille {
 
   //Réalisation du swap
   swapCookies(){
-      let animationid;
         let cookie1 = this.tabCookiesCliquees[0];
         let cookie2 = this.tabCookiesCliquees[1];
 
@@ -172,7 +173,7 @@ class Grille {
   remplirTableauDeCookies(nbDeCookiesDifferents) {
     this.tabCookies = create2DArray(this.nbLignes);
 
-
+    //VERSION DE LA METHODE QUI GENERE UNE GRILLE SANS ALIGNEMENT
     do{
       console.log("GRILLE AVEC ALIGNEMENT GENERE");
       for(let i=0; i<this.nbColonnes; i++){
@@ -186,9 +187,26 @@ class Grille {
 
     console.log("GRILLE SANS ALIGNEMENT GENERE");
     
-  }
 
-  //Permet de rendre visible 3 (ou plus) cookies alignés en ligne et en colonne
+    /*
+      //2EME VERSION DE LA METHODE QUI GENERE UNE GRILLE AVEC ALIGNEMENT POTENTIEL POUR TESTER LES BOUTONS
+      for(let i=0; i<this.nbColonnes; i++){
+        for(let j=0; j<this.nbLignes; j++){
+          let type = Math.floor(Math.random()*(nbDeCookiesDifferents));
+          this.tabCookies[i][j] = new Cookie(type, i, j);
+        }
+      }
+    */
+    
+
+  }
+  
+
+  /*Permet de rendre visible 3 (ou plus) cookies alignés en ligne et en colonne
+   Cette methode est utilisé lors du click du bouton apparition
+   Cette methode est inutile dans la version actuel du projet car lorsqu'un cookie est aligné il s'autoDestruit
+   grâce à la méthode remplirTableauDeCookies() ou autoAlignementsCookies()
+   */
   detecteTousLesAlignements(){
     for(let i=0; i<this.nbColonnes; i++){
       this.detecterMatch3Lignes(i);
@@ -219,15 +237,15 @@ class Grille {
       for(let j=0; j<7; j++){
         if((this.tabCookies[i][j].type == this.tabCookies[i][j+1].type) && (this.tabCookies[i][j+1].type == this.tabCookies[i][j+2].type)){
           this.tabCookies[i][j].selectionnee();
-          this.tabCookies[i][j].htmlImage.dataset.disparition = "false";
+          this.tabCookies[i][j].htmlImage.dataset.invisible = "false";
           this.tabCookies[i][j].htmlImage.classList.remove("invisible");
 
           this.tabCookies[i][j+1].selectionnee();
-          this.tabCookies[i][j+1].htmlImage.dataset.disparition = "false";
+          this.tabCookies[i][j+1].htmlImage.dataset.invisible = "false";
           this.tabCookies[i][j+1].htmlImage.classList.remove("invisible");
 
           this.tabCookies[i][j+2].selectionnee();
-          this.tabCookies[i][j+2].htmlImage.dataset.disparition = "false";
+          this.tabCookies[i][j+2].htmlImage.dataset.invisible = "false";
           this.tabCookies[i][j+2].htmlImage.classList.remove("invisible");
           
         }
@@ -238,15 +256,15 @@ class Grille {
       for(let i=0; i<7; i++){
         if((this.tabCookies[i][j].type == this.tabCookies[i+1][j].type) && (this.tabCookies[i+1][j].type == this.tabCookies[i+2][j].type)){
           this.tabCookies[i][j].selectionnee();
-          this.tabCookies[i][j].htmlImage.dataset.disparition = "false";
+          this.tabCookies[i][j].htmlImage.dataset.invisible = "false";
           this.tabCookies[i][j].htmlImage.classList.remove("invisible");
 
           this.tabCookies[i+1][j].selectionnee();
-          this.tabCookies[i+1][j].htmlImage.dataset.disparition = "false";
+          this.tabCookies[i+1][j].htmlImage.dataset.invisible = "false";
           this.tabCookies[i+1][j].htmlImage.classList.remove("invisible");
 
           this.tabCookies[i+2][j].selectionnee();
-          this.tabCookies[i+2][j].htmlImage.dataset.disparition = "false";
+          this.tabCookies[i+2][j].htmlImage.dataset.invisible = "false";
           this.tabCookies[i+2][j].htmlImage.classList.remove("invisible");
         }
     }
@@ -256,13 +274,13 @@ class Grille {
   faireDisparaitreMatch3Lignes(i){
       for(let j=0; j<7; j++){
         if((this.tabCookies[i][j].type == this.tabCookies[i][j+1].type) && (this.tabCookies[i][j+1].type == this.tabCookies[i][j+2].type)){
-          this.tabCookies[i][j].htmlImage.dataset.disparition = "true";
+          this.tabCookies[i][j].htmlImage.dataset.invisible = "true";
           this.tabCookies[i][j].htmlImage.classList.add("invisible");
 
-          this.tabCookies[i][j+1].htmlImage.dataset.disparition = "true";
+          this.tabCookies[i][j+1].htmlImage.dataset.invisible = "true";
           this.tabCookies[i][j+1].htmlImage.classList.add("invisible");
 
-          this.tabCookies[i][j+2].htmlImage.dataset.disparition = "true";
+          this.tabCookies[i][j+2].htmlImage.dataset.invisible = "true";
           this.tabCookies[i][j+2].htmlImage.classList.add("invisible");
           this.nbAlignements++;
         }
@@ -273,13 +291,13 @@ class Grille {
   faireDisparaitreMatch3Colonnes(j){
       for(let i=0; i<7; i++){
         if((this.tabCookies[i][j].type == this.tabCookies[i+1][j].type) && (this.tabCookies[i+1][j].type == this.tabCookies[i+2][j].type)){
-          this.tabCookies[i][j].htmlImage.dataset.disparition = "true";
+          this.tabCookies[i][j].htmlImage.dataset.invisible = "true";
           this.tabCookies[i][j].htmlImage.classList.add("invisible");
 
-          this.tabCookies[i+1][j].htmlImage.dataset.disparition = "true";
+          this.tabCookies[i+1][j].htmlImage.dataset.invisible = "true";
           this.tabCookies[i+1][j].htmlImage.classList.add("invisible");
 
-          this.tabCookies[i+2][j].htmlImage.dataset.disparition = "true";
+          this.tabCookies[i+2][j].htmlImage.dataset.invisible = "true";
           this.tabCookies[i+2][j].htmlImage.classList.add("invisible");
           this.nbAlignements++;
         }
@@ -293,23 +311,28 @@ class Grille {
     for(let j=0; j<this.nbColonnes; j++){
       for(let i=this.nbLignes-1; i>-1; i--){
 
-        if(this.tabCookies[i][j].htmlImage.dataset.disparition == "true"){
+        //Si un cookie est invisible
+        if(this.tabCookies[i][j].htmlImage.dataset.invisible == "true"){
 
           if(i != 0){
             let cpt = 0;
+            //Je recherche un cookie visible
             do{
               cpt++;
-            }while((i-cpt>0) && this.tabCookies[i - cpt][j].htmlImage.dataset.disparition == "true")
+            }while((i-cpt>0) && this.tabCookies[i - cpt][j].htmlImage.dataset.invisible == "true")
 
-            if(this.tabCookies[i - cpt][j].htmlImage.dataset.disparition == "false"){
+            
+            if(this.tabCookies[i - cpt][j].htmlImage.dataset.invisible == "false"){
 
+              //Je transpose les caractéristiques du cookie visible à celui de l'invisible
               this.tabCookies[i][j].type = this.tabCookies[i - cpt][j].type;
               this.tabCookies[i][j].htmlImage.classList.remove("invisible");
               this.tabCookies[i][j].htmlImage.src = Cookie.urlsImagesNormales[this.tabCookies[i - cpt][j].type];
-              this.tabCookies[i][j].htmlImage.dataset.disparition = "false";
+              this.tabCookies[i][j].htmlImage.dataset.invisible = "false";
               this.tabCookies[i][j].htmlImage.classList.remove("cookies-selected");
 
-              this.tabCookies[i - cpt][j].htmlImage.dataset.disparition = "true";
+              //et je rend invisible celui qui eétait visible
+              this.tabCookies[i - cpt][j].htmlImage.dataset.invisible = "true";
               this.tabCookies[i - cpt][j].htmlImage.classList.add("invisible");
               
               console.log("Chute(s)");
@@ -328,20 +351,22 @@ class Grille {
   score(){
     this.monScore = this.monScore + 1;
     let nouveauScore = "Score :"+ this.monScore;
+    //je change l'affichage du div qui permet d'affaicher le score par la variable nouveauScore
     document.querySelector("#score").textContent = nouveauScore;
   }
 
-  //Permet de remplir l'ensembmle des cookies après une chute de cookies
+  //Permet de remplir de nouveaux cookies après une chute de cookies
   remplissage(nbDeCookiesDifferents) {
 
     for(let j=0; j<this.nbColonnes; j++){
       for(let i=this.nbLignes-1; i>-1; i--){
-        if(this.tabCookies[i][j].htmlImage.dataset.disparition == "true"){
+        //si un cookie est invisible je creer un nouveau cookie qui va le remplacer
+        if(this.tabCookies[i][j].htmlImage.dataset.invisible == "true"){
 
           this.tabCookies[i][j].type = Math.floor(Math.random()*(nbDeCookiesDifferents));
           this.tabCookies[i][j].htmlImage.classList.remove("invisible");
           this.tabCookies[i][j].htmlImage.src = Cookie.urlsImagesNormales[this.tabCookies[i][j].type];
-          this.tabCookies[i][j].htmlImage.dataset.disparition = "false";
+          this.tabCookies[i][j].htmlImage.dataset.invisible = "false";
           this.tabCookies[i][j].htmlImage.classList.remove("cookies-selected");
 
           console.log("Remplissage(s)");
@@ -356,6 +381,8 @@ class Grille {
   /*Permet de faire disparaitre les cookies qui se sont formés indirectement 
     lors d'une chute et d'un remplissage de cookies,
     permet de gérer également la chute et le remplissage des cookies
+
+    Utile également pour le bouton "Faire Disparaitre les cookies alignés" ( executable avec la deuxième version de remplirTableauDeCookies())
    */
   autoAlignementsCookies(){
     do{

@@ -14,8 +14,10 @@
 
 <body>
     <H1>Jeu type candy crush... version avec utilisation de divs</H1>
-    <button onclick="grille.detecteTousLesAlignements();">Appartion</button>
-    <!--<button onclick="grille.faireDisparaitreTousLesAlignements();">Disparition</button>-->
+
+    <H2>(Si vous voulez utiliser les deux boutons ci-dessous, veillez à bien générer une grille avec alignements potentiels, cf: 2ème version de la méthode remplirTableauDeCookies() commentée)</H2>
+    <button onclick="grille.detecteTousLesAlignements();">Faire APPARAITRE les cookies alignés</button>
+    <button onclick="grille.autoAlignementsCookies();">Faire DISPARAITRE les cookies alignés</button>
 
     <br><br>
     <div id="main">

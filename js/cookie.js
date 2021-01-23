@@ -26,7 +26,10 @@ class Cookie {
     this.htmlImage.width = 80;
     this.htmlImage.dataset.ligne = ligne;
     this.htmlImage.dataset.colonne = colonne;
-    this.htmlImage.dataset.disparition = "false";
+
+    //PERMET DE SAVOIR SI UN COOKIE EST VISIBLE OU PAS (utile pour la gestion de chute et de remplissage)
+    this.htmlImage.dataset.invisible = "false";
+
     this.htmlImage.classList.add("cookies");
   }
 
