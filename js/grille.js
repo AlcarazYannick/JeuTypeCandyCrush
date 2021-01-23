@@ -188,17 +188,17 @@ class Grille {
     console.log("GRILLE SANS ALIGNEMENT GENERE");
     
 
-    /*
-      //2EME VERSION DE LA METHODE QUI GENERE UNE GRILLE AVEC ALIGNEMENT POTENTIEL POUR TESTER LES BOUTONS
+    
+    //2EME VERSION DE LA METHODE QUI GENERE UNE GRILLE AVEC ALIGNEMENT POTENTIEL POUR TESTER LES BOUTONS
+     /*
       for(let i=0; i<this.nbColonnes; i++){
         for(let j=0; j<this.nbLignes; j++){
           let type = Math.floor(Math.random()*(nbDeCookiesDifferents));
           this.tabCookies[i][j] = new Cookie(type, i, j);
         }
       }
-    */
+     */
     
-
   }
   
 

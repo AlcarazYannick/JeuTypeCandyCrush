@@ -66,3 +66,18 @@
 .invisible {
     display: none;
 }
+
+.bonus {
+    border-radius: 30px;
+    border-width: 10px;
+    font-family: Cursive;
+    font-size: 20px;
+    line-height:50px;
+    text-align:center;
+    background-color:rgb(228, 217, 217);
+    color:black;
+}
+
+.bonus:hover {
+background-color:rgb(26, 194, 77);
+}
