@@ -1,6 +1,7 @@
 /* Classe principale du jeu, c'est une grille de cookies. Le jeu se joue comme
 Candy Crush Saga etc... c'est un match-3 game... */
 class Grille {
+  nbDeCookiesDifferents = 6;
   monScore = 0;
   tabCookies;
   tabCookiesCliquees = [];
@@ -8,7 +9,7 @@ class Grille {
   constructor(l, c) {
     this.nbLignes = l;
     this.nbColonnes = c;
-    this.remplirTableauDeCookies(6);
+    this.remplirTableauDeCookies(this.nbDeCookiesDifferents);
   }
 
   /**
@@ -118,7 +119,7 @@ class Grille {
     });
   }
 
-
+  //Permet de savoir si un swap entre deux cookies est possible
   swapPossible(){
     let cookie1 = this.tabCookiesCliquees[0];
     let cookie2 = this.tabCookiesCliquees[1];
@@ -134,7 +135,7 @@ class Grille {
     return (Cookie.distance(cookie1, cookie2) === 1);
   }
 
-
+  //Réalisation du swap
   swapCookies(){
       let animationid;
         let cookie1 = this.tabCookiesCliquees[0];
@@ -149,10 +150,10 @@ class Grille {
         cookie2.type = tmpType;
         cookie2.htmlImage.src = tmpImgSrc;
 
-        this.disparaitreTousLesAlignements();
+        this.faireDisparaitreTousLesAlignements();
         this.chute();
-        this.remplissage(6);
-        this.autoDestruction();
+        this.remplissage(this.nbDeCookiesDifferents);
+        this.autoAlignementsCookies();
 
   }
   
@@ -181,13 +182,13 @@ class Grille {
           //console.log("cookie rempli à la colonne: "+j+", ligne: "+i+", et type: "+ type);
         }
       }
-    }while(this.disparaitreTousLesAlignements())
+    }while(this.faireDisparaitreTousLesAlignements())
 
     console.log("GRILLE SANS ALIGNEMENT GENERE");
     
   }
 
-
+  //Permet de rendre visible 3 (ou plus) cookies alignés en ligne et en colonne
   detecteTousLesAlignements(){
     for(let i=0; i<this.nbColonnes; i++){
       this.detecterMatch3Lignes(i);
@@ -198,20 +199,21 @@ class Grille {
     }
   }
 
-  disparaitreTousLesAlignements(){
+  //Permet de faire disparaitre 3 (ou plus) cookies alignés en ligne et en colonne
+  faireDisparaitreTousLesAlignements(){
     this.nbAlignements = 0;
     for(let i=0; i<this.nbColonnes; i++){
-      this.disparaitreMatch3Lignes(i);
+      this.faireDisparaitreMatch3Lignes(i);
     }
     
     for(let j=0; j<this.nbColonnes; j++){
-      this.disparaitreMatch3Colonnes(j);
+      this.faireDisparaitreMatch3Colonnes(j);
     }
 
     return(this.nbAlignements !== 0);
   }
 
-
+  //Permet de rendre visible 3 (ou plus) cookies alignés en ligne
   detecterMatch3Lignes(i){
 
       for(let j=0; j<7; j++){
@@ -231,7 +233,7 @@ class Grille {
         }
       }
   }
-
+  //Permet de rendre visible 3 (ou plus) cookies alignés en colonne
   detecterMatch3Colonnes(j){
       for(let i=0; i<7; i++){
         if((this.tabCookies[i][j].type == this.tabCookies[i+1][j].type) && (this.tabCookies[i+1][j].type == this.tabCookies[i+2][j].type)){
@@ -250,7 +252,8 @@ class Grille {
     }
   }
 
-  disparaitreMatch3Lignes(i){
+  //Permet de faire disparaitre 3 (ou plus) cookies alignés en ligne
+  faireDisparaitreMatch3Lignes(i){
       for(let j=0; j<7; j++){
         if((this.tabCookies[i][j].type == this.tabCookies[i][j+1].type) && (this.tabCookies[i][j+1].type == this.tabCookies[i][j+2].type)){
           this.tabCookies[i][j].htmlImage.dataset.disparition = "true";
@@ -266,7 +269,8 @@ class Grille {
       }
   }
 
-  disparaitreMatch3Colonnes(j){
+  //Permet de faire disparaitre 3 (ou plus) cookies alignés en colonne
+  faireDisparaitreMatch3Colonnes(j){
       for(let i=0; i<7; i++){
         if((this.tabCookies[i][j].type == this.tabCookies[i+1][j].type) && (this.tabCookies[i+1][j].type == this.tabCookies[i+2][j].type)){
           this.tabCookies[i][j].htmlImage.dataset.disparition = "true";
@@ -283,7 +287,7 @@ class Grille {
   }
 
 
-
+  //Permet de gérer la chute
   chute(){
     
     for(let j=0; j<this.nbColonnes; j++){
@@ -308,7 +312,7 @@ class Grille {
               this.tabCookies[i - cpt][j].htmlImage.dataset.disparition = "true";
               this.tabCookies[i - cpt][j].htmlImage.classList.add("invisible");
               
-              console.log("candy ont chutées");
+              console.log("Chute(s)");
 
             }
           } 
@@ -320,12 +324,14 @@ class Grille {
     }
   }
 
+  //gestion du score :  augmente le score de 1 a chaque fois que la methode est appelé
   score(){
     this.monScore = this.monScore + 1;
     let nouveauScore = "Score :"+ this.monScore;
     document.querySelector("#score").textContent = nouveauScore;
   }
 
+  //Permet de remplir l'ensembmle des cookies après une chute de cookies
   remplissage(nbDeCookiesDifferents) {
 
     for(let j=0; j<this.nbColonnes; j++){
@@ -338,7 +344,7 @@ class Grille {
           this.tabCookies[i][j].htmlImage.dataset.disparition = "false";
           this.tabCookies[i][j].htmlImage.classList.remove("cookies-selected");
 
-          console.log("candy ont été remplis");
+          console.log("Remplissage(s)");
           this.score(); 
         
         }
@@ -347,13 +353,16 @@ class Grille {
   
   }
 
-  autoDestruction(){
+  /*Permet de faire disparaitre les cookies qui se sont formés indirectement 
+    lors d'une chute et d'un remplissage de cookies,
+    permet de gérer également la chute et le remplissage des cookies
+   */
+  autoAlignementsCookies(){
     do{
-      console.log("auto Destruction");
-      this.disparaitreTousLesAlignements();
+      this.faireDisparaitreTousLesAlignements();
       this.chute();
-      this.remplissage(6);
-    }while(this.disparaitreTousLesAlignements())
+      this.remplissage(this.nbDeCookiesDifferents);
+    }while(this.faireDisparaitreTousLesAlignements())
   }
 
 
